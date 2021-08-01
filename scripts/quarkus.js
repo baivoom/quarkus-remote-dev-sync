@@ -5237,11 +5237,6 @@ var QuarkusMonitor = class extends FileMonitor {
         fs2.mkdirSync(targetdir, { recursive: true });
         fs2.copyFileSync(source, target);
         this.logger.info(`copied from ${source} to ${target}`);
-        try {
-          fs2.rmSync(`${delfrom}/${filename}`, { force: true });
-        } catch (e) {
-          this.logger.error(`unable to delete the cache dev file. ${delfrom}/${filename}`);
-        }
         this.logger.info(`trying to delete cached file at ${delfrom}/${filename}`);
       } else {
         this.logger.info(`skipped no recorded source at ${source}`);
@@ -5263,19 +5258,17 @@ var SourceMonitor = class extends FileMonitor {
     this.scan();
     this.watch();
   }
+  internalScan(dir) {
+    const files = fg.sync([`${dir}/**/*.kt`, `${dir}/**/*.java`], { dot: false });
+    for (const file of files) {
+      const iskotlin = file.endsWith(".kt");
+      const name = file.replace(dir, "").replace(/[\\]/g, "/").replace(/\.kt$/, ".class").replace(/\.java$/, ".class").replace(/^\/*/, "");
+      this.files[name] = iskotlin;
+    }
+  }
   scan() {
-    const kotlin2 = `${this.location}/kotlin`;
-    const kts = fg.sync([`${kotlin2}/**/*.kt`], { dot: false });
-    kts.forEach((x) => {
-      const k = x.replace(`${kotlin2}/`, "").replace(/[\\]/g, "/").replace(/\.kt/, ".class");
-      this.files[k] = true;
-    });
-    const java2 = `${this.location}/java`;
-    const jss = fg.sync([`${java2}/**/*.java`], { dot: false });
-    jss.forEach((x) => {
-      const k = x.replace(`${java2}/`, "").replace(/[\\]/g, "/").replace(/\.java/, ".class");
-      this.files[k] = false;
-    });
+    this.internalScan(`${this.location}/kotlin`);
+    this.internalScan(`${this.location}/java`);
     for (const file in this.files) {
       this.logger.info(`source: ${file}, kotlin: ${this.files[file]}`);
     }

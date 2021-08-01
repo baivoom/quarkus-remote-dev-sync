@@ -20,22 +20,19 @@ export class SourceMonitor extends FileMonitor {
         this.watch()
     }
 
+    internalScan(dir) {
+        const files = fg.sync([`${dir}/**/*.kt`, `${dir}/**/*.java`], { dot: false})
+        for (const file of files) {
+            const iskotlin = file.endsWith('.kt')
+            const name = file.replace(dir, '').replace(/[\\]/g, '/').replace(/\.kt$/, '.class').replace(/\.java$/, '.class').replace(/^\/*/, '')
+            this.files[name] = iskotlin
+        }
+    }
+
     scan() {
-
-        const kotlin = `${this.location}/kotlin`
-        const kts = fg.sync([`${kotlin}/**/*.kt`], { dot: false})
-        kts.forEach(x => {
-            const k = x.replace(`${kotlin}/`, '').replace(/[\\]/g, '/').replace(/\.kt/, '.class')
-            this.files[k] = true
-        })
-
-        const java = `${this.location}/java`
-        const jss = fg.sync([`${java}/**/*.java`], { dot: false})
-        jss.forEach(x => {
-            const k = x.replace(`${java}/`, '').replace(/[\\]/g, '/').replace(/\.java/, '.class')
-            this.files[k] = false
-        })
-
+        this.internalScan(`${this.location}/kotlin`)
+        this.internalScan(`${this.location}/java`)
+        
         for(const file in this.files) {
             this.logger.info(`source: ${file}, kotlin: ${this.files[file]}`)
         }

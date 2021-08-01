@@ -41,11 +41,11 @@ export class QuarkusMonitor extends FileMonitor {
                 fs.copyFileSync(source, target)
                 this.logger.info(`copied from ${source} to ${target}`)
 
-                try {
-                    fs.rmSync(`${delfrom}/${filename}`, { force: true })
-                } catch(e) {
-                    this.logger.error(`unable to delete the cache dev file. ${delfrom}/${filename}`)
-                }
+                // try {
+                //     fs.rm(`${delfrom}/${filename}`, { force: true })
+                // } catch(e) {
+                //     this.logger.error(`unable to delete the cache dev file. ${delfrom}/${filename}. ${e}`)
+                // }
                 this.logger.info(`trying to delete cached file at ${delfrom}/${filename}`)
             } else {
                 this.logger.info(`skipped no recorded source at ${source}`)
