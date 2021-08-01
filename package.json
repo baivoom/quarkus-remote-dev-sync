@@ -4,7 +4,7 @@
   "description": "",
   "main": "logger.js",
   "scripts": {
-    "build": "esbuild main.js --bundle --outfile=scripts/quarkus.js --platform=node"
+    "build": "esbuild main.js --bundle --outfile=scripts/quarkus.js --platform=node --bundle --minify"
   },
   "author": "",
   "license": "ISC",
