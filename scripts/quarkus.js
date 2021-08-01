@@ -73,7 +73,7 @@ var require_path = __commonJS({
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.removeLeadingDotSegment = exports2.escape = exports2.makeAbsolute = exports2.unixify = void 0;
-    var path = require("path");
+    var path3 = require("path");
     var LEADING_DOT_SEGMENT_CHARACTERS_COUNT = 2;
     var UNESCAPED_GLOB_SYMBOLS_RE = /(\\?)([()*?[\]{|}]|^!|[!+@](?=\())/g;
     function unixify(filepath) {
@@ -81,7 +81,7 @@ var require_path = __commonJS({
     }
     exports2.unixify = unixify;
     function makeAbsolute(cwd, filepath) {
-      return path.resolve(cwd, filepath);
+      return path3.resolve(cwd, filepath);
     }
     exports2.makeAbsolute = makeAbsolute;
     function escape(pattern) {
@@ -1236,7 +1236,7 @@ var require_braces = __commonJS({
 var require_constants2 = __commonJS({
   "node_modules/picomatch/lib/constants.js"(exports2, module2) {
     "use strict";
-    var path = require("path");
+    var path3 = require("path");
     var WIN_SLASH = "\\\\/";
     var WIN_NO_SLASH = `[^${WIN_SLASH}]`;
     var DOT_LITERAL = "\\.";
@@ -1358,7 +1358,7 @@ var require_constants2 = __commonJS({
       CHAR_UNDERSCORE: 95,
       CHAR_VERTICAL_LINE: 124,
       CHAR_ZERO_WIDTH_NOBREAK_SPACE: 65279,
-      SEP: path.sep,
+      SEP: path3.sep,
       extglobChars(chars) {
         return {
           "!": { type: "negate", open: "(?:(?!(?:", close: `))${chars.STAR})` },
@@ -1379,7 +1379,7 @@ var require_constants2 = __commonJS({
 var require_utils2 = __commonJS({
   "node_modules/picomatch/lib/utils.js"(exports2) {
     "use strict";
-    var path = require("path");
+    var path3 = require("path");
     var win32 = process.platform === "win32";
     var {
       REGEX_BACKSLASH,
@@ -1408,7 +1408,7 @@ var require_utils2 = __commonJS({
       if (options && typeof options.windows === "boolean") {
         return options.windows;
       }
-      return win32 === true || path.sep === "\\";
+      return win32 === true || path3.sep === "\\";
     };
     exports2.escapeLast = (input, char, lastIdx) => {
       const idx = input.lastIndexOf(char, lastIdx);
@@ -2540,7 +2540,7 @@ var require_parse2 = __commonJS({
 var require_picomatch = __commonJS({
   "node_modules/picomatch/lib/picomatch.js"(exports2, module2) {
     "use strict";
-    var path = require("path");
+    var path3 = require("path");
     var scan = require_scan();
     var parse = require_parse2();
     var utils = require_utils2();
@@ -2626,7 +2626,7 @@ var require_picomatch = __commonJS({
     };
     picomatch.matchBase = (input, glob, options, posix = utils.isWindows(options)) => {
       const regex = glob instanceof RegExp ? glob : picomatch.makeRe(glob, options);
-      return regex.test(path.basename(input));
+      return regex.test(path3.basename(input));
     };
     picomatch.isMatch = (str, patterns, options) => picomatch(patterns, options)(str);
     picomatch.parse = (pattern, options) => {
@@ -2856,7 +2856,7 @@ var require_pattern = __commonJS({
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.matchAny = exports2.convertPatternsToRe = exports2.makeRe = exports2.getPatternParts = exports2.expandBraceExpansion = exports2.expandPatternsWithBraceExpansion = exports2.isAffectDepthOfReadingPattern = exports2.endsWithSlashGlobStar = exports2.hasGlobStar = exports2.getBaseDirectory = exports2.isPatternRelatedToParentDirectory = exports2.getPatternsOutsideCurrentDirectory = exports2.getPatternsInsideCurrentDirectory = exports2.getPositivePatterns = exports2.getNegativePatterns = exports2.isPositivePattern = exports2.isNegativePattern = exports2.convertToNegativePattern = exports2.convertToPositivePattern = exports2.isDynamicPattern = exports2.isStaticPattern = void 0;
-    var path = require("path");
+    var path3 = require("path");
     var globParent = require_glob_parent();
     var micromatch = require_micromatch();
     var GLOBSTAR = "**";
@@ -2938,7 +2938,7 @@ var require_pattern = __commonJS({
     }
     exports2.endsWithSlashGlobStar = endsWithSlashGlobStar;
     function isAffectDepthOfReadingPattern(pattern) {
-      const basename = path.basename(pattern);
+      const basename = path3.basename(pattern);
       return endsWithSlashGlobStar(pattern) || isStaticPattern(basename);
     }
     exports2.isAffectDepthOfReadingPattern = isAffectDepthOfReadingPattern;
@@ -3151,10 +3151,10 @@ var require_utils3 = __commonJS({
     exports2.array = array;
     var errno = require_errno();
     exports2.errno = errno;
-    var fs2 = require_fs();
-    exports2.fs = fs2;
-    var path = require_path();
-    exports2.path = path;
+    var fs4 = require_fs();
+    exports2.fs = fs4;
+    var path3 = require_path();
+    exports2.path = path3;
     var pattern = require_pattern();
     exports2.pattern = pattern;
     var stream = require_stream();
@@ -3244,8 +3244,8 @@ var require_async = __commonJS({
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.read = void 0;
-    function read(path, settings, callback) {
-      settings.fs.lstat(path, (lstatError, lstat) => {
+    function read(path3, settings, callback) {
+      settings.fs.lstat(path3, (lstatError, lstat) => {
         if (lstatError !== null) {
           callFailureCallback(callback, lstatError);
           return;
@@ -3254,7 +3254,7 @@ var require_async = __commonJS({
           callSuccessCallback(callback, lstat);
           return;
         }
-        settings.fs.stat(path, (statError, stat) => {
+        settings.fs.stat(path3, (statError, stat) => {
           if (statError !== null) {
             if (settings.throwErrorOnBrokenSymbolicLink) {
               callFailureCallback(callback, statError);
@@ -3286,13 +3286,13 @@ var require_sync = __commonJS({
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.read = void 0;
-    function read(path, settings) {
-      const lstat = settings.fs.lstatSync(path);
+    function read(path3, settings) {
+      const lstat = settings.fs.lstatSync(path3);
       if (!lstat.isSymbolicLink() || !settings.followSymbolicLink) {
         return lstat;
       }
       try {
-        const stat = settings.fs.statSync(path);
+        const stat = settings.fs.statSync(path3);
         if (settings.markSymbolicLink) {
           stat.isSymbolicLink = () => true;
         }
@@ -3314,12 +3314,12 @@ var require_fs2 = __commonJS({
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createFileSystemAdapter = exports2.FILE_SYSTEM_ADAPTER = void 0;
-    var fs2 = require("fs");
+    var fs4 = require("fs");
     exports2.FILE_SYSTEM_ADAPTER = {
-      lstat: fs2.lstat,
-      stat: fs2.stat,
-      lstatSync: fs2.lstatSync,
-      statSync: fs2.statSync
+      lstat: fs4.lstat,
+      stat: fs4.stat,
+      lstatSync: fs4.lstatSync,
+      statSync: fs4.statSync
     };
     function createFileSystemAdapter(fsMethods) {
       if (fsMethods === void 0) {
@@ -3336,12 +3336,12 @@ var require_settings = __commonJS({
   "node_modules/@nodelib/fs.stat/out/settings.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    var fs2 = require_fs2();
+    var fs4 = require_fs2();
     var Settings = class {
       constructor(_options = {}) {
         this._options = _options;
         this.followSymbolicLink = this._getValue(this._options.followSymbolicLink, true);
-        this.fs = fs2.createFileSystemAdapter(this._options.fs);
+        this.fs = fs4.createFileSystemAdapter(this._options.fs);
         this.markSymbolicLink = this._getValue(this._options.markSymbolicLink, false);
         this.throwErrorOnBrokenSymbolicLink = this._getValue(this._options.throwErrorOnBrokenSymbolicLink, true);
       }
@@ -3363,17 +3363,17 @@ var require_out = __commonJS({
     var sync = require_sync();
     var settings_1 = require_settings();
     exports2.Settings = settings_1.default;
-    function stat(path, optionsOrSettingsOrCallback, callback) {
+    function stat(path3, optionsOrSettingsOrCallback, callback) {
       if (typeof optionsOrSettingsOrCallback === "function") {
-        async.read(path, getSettings(), optionsOrSettingsOrCallback);
+        async.read(path3, getSettings(), optionsOrSettingsOrCallback);
         return;
       }
-      async.read(path, getSettings(optionsOrSettingsOrCallback), callback);
+      async.read(path3, getSettings(optionsOrSettingsOrCallback), callback);
     }
     exports2.stat = stat;
-    function statSync(path, optionsOrSettings) {
+    function statSync(path3, optionsOrSettings) {
       const settings = getSettings(optionsOrSettings);
-      return sync.read(path, settings);
+      return sync.read(path3, settings);
     }
     exports2.statSync = statSync;
     function getSettings(settingsOrOptions = {}) {
@@ -3499,8 +3499,8 @@ var require_utils4 = __commonJS({
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.fs = void 0;
-    var fs2 = require_fs3();
-    exports2.fs = fs2;
+    var fs4 = require_fs3();
+    exports2.fs = fs4;
   }
 });
 
@@ -3592,16 +3592,16 @@ var require_async2 = __commonJS({
           return;
         }
         const tasks = names.map((name) => {
-          const path = common.joinPathSegments(directory, name, settings.pathSegmentSeparator);
+          const path3 = common.joinPathSegments(directory, name, settings.pathSegmentSeparator);
           return (done) => {
-            fsStat.stat(path, settings.fsStatSettings, (error, stats) => {
+            fsStat.stat(path3, settings.fsStatSettings, (error, stats) => {
               if (error !== null) {
                 done(error);
                 return;
               }
               const entry = {
                 name,
-                path,
+                path: path3,
                 dirent: utils.fs.createDirentFromStats(name, stats)
               };
               if (settings.stats) {
@@ -3695,14 +3695,14 @@ var require_fs4 = __commonJS({
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createFileSystemAdapter = exports2.FILE_SYSTEM_ADAPTER = void 0;
-    var fs2 = require("fs");
+    var fs4 = require("fs");
     exports2.FILE_SYSTEM_ADAPTER = {
-      lstat: fs2.lstat,
-      stat: fs2.stat,
-      lstatSync: fs2.lstatSync,
-      statSync: fs2.statSync,
-      readdir: fs2.readdir,
-      readdirSync: fs2.readdirSync
+      lstat: fs4.lstat,
+      stat: fs4.stat,
+      lstatSync: fs4.lstatSync,
+      statSync: fs4.statSync,
+      readdir: fs4.readdir,
+      readdirSync: fs4.readdirSync
     };
     function createFileSystemAdapter(fsMethods) {
       if (fsMethods === void 0) {
@@ -3719,15 +3719,15 @@ var require_settings2 = __commonJS({
   "node_modules/@nodelib/fs.scandir/out/settings.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    var path = require("path");
+    var path3 = require("path");
     var fsStat = require_out();
-    var fs2 = require_fs4();
+    var fs4 = require_fs4();
     var Settings = class {
       constructor(_options = {}) {
         this._options = _options;
         this.followSymbolicLinks = this._getValue(this._options.followSymbolicLinks, false);
-        this.fs = fs2.createFileSystemAdapter(this._options.fs);
-        this.pathSegmentSeparator = this._getValue(this._options.pathSegmentSeparator, path.sep);
+        this.fs = fs4.createFileSystemAdapter(this._options.fs);
+        this.pathSegmentSeparator = this._getValue(this._options.pathSegmentSeparator, path3.sep);
         this.stats = this._getValue(this._options.stats, false);
         this.throwErrorOnBrokenSymbolicLink = this._getValue(this._options.throwErrorOnBrokenSymbolicLink, true);
         this.fsStatSettings = new fsStat.Settings({
@@ -3754,17 +3754,17 @@ var require_out2 = __commonJS({
     var sync = require_sync2();
     var settings_1 = require_settings2();
     exports2.Settings = settings_1.default;
-    function scandir(path, optionsOrSettingsOrCallback, callback) {
+    function scandir(path3, optionsOrSettingsOrCallback, callback) {
       if (typeof optionsOrSettingsOrCallback === "function") {
-        async.read(path, getSettings(), optionsOrSettingsOrCallback);
+        async.read(path3, getSettings(), optionsOrSettingsOrCallback);
         return;
       }
-      async.read(path, getSettings(optionsOrSettingsOrCallback), callback);
+      async.read(path3, getSettings(optionsOrSettingsOrCallback), callback);
     }
     exports2.scandir = scandir;
-    function scandirSync(path, optionsOrSettings) {
+    function scandirSync(path3, optionsOrSettings) {
       const settings = getSettings(optionsOrSettings);
-      return sync.read(path, settings);
+      return sync.read(path3, settings);
     }
     exports2.scandirSync = scandirSync;
     function getSettings(settingsOrOptions = {}) {
@@ -4348,7 +4348,7 @@ var require_settings3 = __commonJS({
   "node_modules/@nodelib/fs.walk/out/settings.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    var path = require("path");
+    var path3 = require("path");
     var fsScandir = require_out2();
     var Settings = class {
       constructor(_options = {}) {
@@ -4358,7 +4358,7 @@ var require_settings3 = __commonJS({
         this.deepFilter = this._getValue(this._options.deepFilter, null);
         this.entryFilter = this._getValue(this._options.entryFilter, null);
         this.errorFilter = this._getValue(this._options.errorFilter, null);
-        this.pathSegmentSeparator = this._getValue(this._options.pathSegmentSeparator, path.sep);
+        this.pathSegmentSeparator = this._getValue(this._options.pathSegmentSeparator, path3.sep);
         this.fsScandirSettings = new fsScandir.Settings({
           followSymbolicLinks: this._options.followSymbolicLinks,
           fs: this._options.fs,
@@ -4420,7 +4420,7 @@ var require_reader2 = __commonJS({
   "node_modules/fast-glob/out/readers/reader.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    var path = require("path");
+    var path3 = require("path");
     var fsStat = require_out();
     var utils = require_utils3();
     var Reader = class {
@@ -4433,7 +4433,7 @@ var require_reader2 = __commonJS({
         });
       }
       _getFullEntryPath(filepath) {
-        return path.resolve(this._settings.cwd, filepath);
+        return path3.resolve(this._settings.cwd, filepath);
       }
       _makeEntry(stats, pattern) {
         const entry = {
@@ -4785,7 +4785,7 @@ var require_provider = __commonJS({
   "node_modules/fast-glob/out/providers/provider.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    var path = require("path");
+    var path3 = require("path");
     var deep_1 = require_deep();
     var entry_1 = require_entry();
     var error_1 = require_error();
@@ -4799,7 +4799,7 @@ var require_provider = __commonJS({
         this.entryTransformer = new entry_2.default(this._settings);
       }
       _getRootDirectory(task) {
-        return path.resolve(this._settings.cwd, task.base);
+        return path3.resolve(this._settings.cwd, task.base);
       }
       _getReaderOptions(task) {
         const basePath = task.base === "." ? "" : task.base;
@@ -4985,16 +4985,16 @@ var require_settings4 = __commonJS({
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.DEFAULT_FILE_SYSTEM_ADAPTER = void 0;
-    var fs2 = require("fs");
+    var fs4 = require("fs");
     var os = require("os");
     var CPU_COUNT = Math.max(os.cpus().length, 1);
     exports2.DEFAULT_FILE_SYSTEM_ADAPTER = {
-      lstat: fs2.lstat,
-      lstatSync: fs2.lstatSync,
-      stat: fs2.stat,
-      statSync: fs2.statSync,
-      readdir: fs2.readdir,
-      readdirSync: fs2.readdirSync
+      lstat: fs4.lstat,
+      lstatSync: fs4.lstatSync,
+      stat: fs4.stat,
+      statSync: fs4.statSync,
+      readdir: fs4.readdir,
+      readdirSync: fs4.readdirSync
     };
     var Settings = class {
       constructor(_options = {}) {
@@ -5123,37 +5123,201 @@ var Logger = class {
   }
 };
 
-// source-monitor.js
+// monitor.js
 var fs = require("fs");
+var path = require("path");
+var FileMonitor = class {
+  watchingLocation = "";
+  monitoring = false;
+  logger = new Logger("FileMonitor");
+  options = {
+    interval: 2e3,
+    file: true,
+    directory: false,
+    recursive: true,
+    root: true,
+    temp: false
+  };
+  constructor(location, options) {
+    if (options) {
+      this.options = { ...this.options, ...options };
+    }
+    this.watchingLocation = location;
+  }
+  onFileChange(eventtype, filename) {
+    this.logger.info(`detected file changed with no handle. ${eventtype}, ${filename}`);
+  }
+  watch() {
+    if (this.monitoring)
+      return;
+    if (!fs.existsSync(this.watchingLocation)) {
+      this.logger.warn(`watching folder does not exist, ${this.watchingLocation}, recheck in ${this.options.interval} ms`);
+      setTimeout(() => {
+        this.watch();
+      }, this.options.interval);
+      return;
+    }
+    try {
+      const watcher = fs.watch(this.watchingLocation, { recursive: this.options.recursive }, (eventtype, filename) => {
+        try {
+          let trigger = false;
+          const basename = path.basename(filename);
+          if (!this.options.temp && (basename.startsWith("~") || basename.endsWith("~"))) {
+            this.logger.info(`skip temporary file ${filename}`);
+            return;
+          }
+          const stat = fs.statSync(`${this.watchingLocation}/${filename}`);
+          if (this.options.file && stat.isFile()) {
+            trigger = true;
+          } else if (this.options.directory && stat.isDirectory()) {
+            trigger = true;
+          }
+          if (trigger) {
+            try {
+              if (this.options.root) {
+                filename = `${this.watchingLocation}/${filename}`;
+              }
+              this.onFileChange(eventtype, filename);
+            } catch (e) {
+              this.logger.error(`unhandled exception while calling onFileChange. ${e}`);
+            }
+          }
+        } catch (e) {
+          this.logger.error(`unable to stat the changed file at ${filename}. ${e}`);
+        }
+      });
+      this.logger.info(`we are watching the source ${this.watchingLocation}`);
+      watcher.on("error", (e) => {
+        this.logger.error(`watching error detected. ${e}`);
+      });
+      watcher.on("close", () => {
+        this.monitoring = false;
+        this.logger.warn(`watching closed and will be restated in ${this.options.interval} ms`);
+        setTimeout(() => {
+          this.watch();
+        }, this.options.interval);
+      });
+      this.monitoring = true;
+    } catch (e) {
+      this.monitoring = false;
+      console.log(`unable to watch folder due to ${e}, will be restarted in ${this.options.interval} ms`);
+      setTimeout(() => {
+        this.watch();
+      }, this.options.interval);
+    }
+  }
+};
+
+// quarkus-remote.js
+var path2 = require("path");
+var fs2 = require("fs");
+var folder = "./build/quarkus-app-classes";
+var delfrom = "./build/quarkus-app/dev/app";
+var kotlin = "./build/classes/kotlin/main";
+var java = "./build/classes/java/main";
+var QuarkusMonitor = class extends FileMonitor {
+  logger = new Logger("QuarkusMonitor");
+  constructor(sources2) {
+    super("./build/quarkus-app-classes", { root: false });
+    this.sources = sources2;
+  }
+  onFileChange(eventtype, filename) {
+    if (eventtype == "change") {
+      const source = `${folder}/${filename}`;
+      this.logger.info(`changes detected on ${filename}, copying to classes...`);
+      let root = null;
+      if (this.sources.isKotlin(filename)) {
+        root = kotlin;
+      } else if (this.sources.isJava(filename)) {
+        root = java;
+      }
+      if (root) {
+        const target = `${root}/${filename}`;
+        const targetdir = path2.dirname(target);
+        fs2.mkdirSync(targetdir, { recursive: true });
+        fs2.copyFileSync(source, target);
+        this.logger.info(`copied from ${source} to ${target}`);
+        try {
+          fs2.rmSync(`${delfrom}/${filename}`, { force: true });
+        } catch (e) {
+          this.logger.error(`unable to delete the cache dev file. ${delfrom}/${filename}`);
+        }
+        this.logger.info(`trying to delete cached file at ${delfrom}/${filename}`);
+      } else {
+        this.logger.info(`skipped no recorded source at ${source}`);
+      }
+    }
+  }
+};
+
+// source-monitor.js
+var fs3 = require("fs");
 var fg = require_out4();
-var SourceMonitor = class {
+var SourceMonitor = class extends FileMonitor {
+  files = Object.create(null);
+  monitoring = false;
   constructor(location) {
+    super(location);
     this.location = location;
     this.logger = new Logger("SourceMonitor");
     this.scan();
+    this.watch();
   }
   scan() {
-    const sources2 = fg.sync([`${this.location}/**/*.kt`, `${this.location}/**/*.java`]);
-    sources2.forEach((x) => {
-      this.logger.info(x);
+    const kotlin2 = `${this.location}/kotlin`;
+    const kts = fg.sync([`${kotlin2}/**/*.kt`], { dot: false });
+    kts.forEach((x) => {
+      const k = x.replace(`${kotlin2}/`, "").replace(/[\\]/g, "/").replace(/\.kt/, ".class");
+      this.files[k] = true;
     });
-  }
-  monitor() {
-    this.logger.info("trying to watch " + this.location);
-    if (!fs.existsSync(folder)) {
-      console.log("watching folder does not exist.  " + folder);
-      setTimeout(SetOnReady, 2e3);
-      return;
+    const java2 = `${this.location}/java`;
+    const jss = fg.sync([`${java2}/**/*.java`], { dot: false });
+    jss.forEach((x) => {
+      const k = x.replace(`${java2}/`, "").replace(/[\\]/g, "/").replace(/\.java/, ".class");
+      this.files[k] = false;
+    });
+    for (const file in this.files) {
+      this.logger.info(`source: ${file}, kotlin: ${this.files[file]}`);
     }
   }
+  onFileChange(eventtype, filename) {
+    filename = filename.replace(/[\\]/g, "/");
+    filename = filename.replace(this.location, "");
+    filename = filename.replace(/^\/*/, "");
+    let added = "";
+    const index = filename.indexOf("/");
+    filename = filename.substr(index + 1);
+    if (filename.endsWith(".kt")) {
+      added = filename.replace(/\.kt$/, ".class");
+      this.files[added] = true;
+    } else if (filename.endsWith(".java")) {
+      added = filename.replace(/\.java$/, ".class");
+      this.files[added] = false;
+    }
+    this.logger.info(`add new record '${added}', kotlin: ${this.files[added]}`);
+  }
   isKotlin(location) {
+    location = location.replace(/[\\]/g, "/");
+    if (location in this.files) {
+      return this.files[location];
+    }
+    this.logger.info(`no record detect for ${location}`);
+    return false;
   }
   isJava(location) {
+    location = location.replace(/[\\]/g, "/");
+    if (location in this.files) {
+      return !this.files[location];
+    }
+    this.logger.info(`no record detect for ${location}`);
+    return false;
   }
 };
 
 // main.js
 var sources = new SourceMonitor("./src/main");
+var quarkus = new QuarkusMonitor(sources);
+quarkus.watch();
 /*!
  * fill-range <https://github.com/jonschlinkert/fill-range>
  *

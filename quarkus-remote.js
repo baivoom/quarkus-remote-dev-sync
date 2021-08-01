@@ -1,67 +1,58 @@
-import { SourceMonitor } from './source-monitor'
+import { Logger } from './logger';
+import { FileMonitor } from './monitor';
 
-const { SlowBuffer } = require('buffer');
-const fs = require('fs');
-const path = require('path');
+const path = require('path')
+const fs = require('fs')
 
-const from = ""
 const folder = './build/quarkus-app-classes'
-const targets = [
-    './build/classes/java/main',
-    './build/classes/kotlin/main',
-]
+const delfrom = './build/quarkus-app/dev/app'
 
 
-const sources = new SourceMonitor('./src/main')
+const kotlin = './build/classes/kotlin/main'
+const java = './build/classes/java/main'
 
 
 
-function SetOnReady() {
-    console.log("trying to watch" + folder)
-    if (!fs.existsSync(folder)) {
-        console.log("watching folder does not exist.  " + folder)
-        setTimeout(SetOnReady, 2000);
-        return
+export class QuarkusMonitor extends FileMonitor {
+
+    logger = new Logger('QuarkusMonitor')
+
+
+    constructor(sources) {
+        super('./build/quarkus-app-classes', { root: false })
+        this.sources = sources
     }
-    try {
-        const watcher = fs.watch('./build/quarkus-app-classes', { recursive: true }, (eventtype, filename) => {
-            if (eventtype == 'change') {
-                const source = `${folder}/${filename}`
-                if (fs.statSync(source).isFile()) {
-                    console.log(`changes detected on ${filename}, copying to classes...`)
-                    targets.forEach(x => {
-                        const target = `${x}/${filename}`
-                        const targetdir = path.dirname(target)
-                        fs.mkdirSync(targetdir, {recursive: true})
-                        fs.copyFileSync(source, target)
-                        console.log(`copied from ${source} to ${target}`)
-                    })
-                }
+
+    onFileChange(eventtype, filename) {
+        if (eventtype == 'change') {
+            const source = `${folder}/${filename}`
+            this.logger.info(`changes detected on ${filename}, copying to classes...`)
+            let root = null
+            if (this.sources.isKotlin(filename)) {
+                root = kotlin
+            } else if (this.sources.isJava(filename)) {
+                root = java
             }
-        });
-        console.log(`we are watching the source ${folder}`)
-        watcher.on('error', (e) => {
-            console.log('watching error detected. ' + e)
-        })
-        watcher.on('close', () => {
-            console.log('watching closed and will be restated in 2 seconds')
-            setTimeout(SetOnReady, 2000)
-        })
-    } catch (e) {
-        console.log(`unable to watch folder due to ${e}, will be restarted in 2 seconds`)
-        setTimeout(SetOnReady, 2000)
-    } 
+            if (root) {
+                
+                const target = `${root}/${filename}`
+                const targetdir = path.dirname(target)
+                fs.mkdirSync(targetdir, {recursive: true})
+                fs.copyFileSync(source, target)
+                this.logger.info(`copied from ${source} to ${target}`)
+
+                try {
+                    fs.rmSync(`${delfrom}/${filename}`, { force: true })
+                } catch(e) {
+                    this.logger.error(`unable to delete the cache dev file. ${delfrom}/${filename}`)
+                }
+                this.logger.info(`trying to delete cached file at ${delfrom}/${filename}`)
+            } else {
+                this.logger.info(`skipped no recorded source at ${source}`)
+            }
+        }
+    }
 }
-
-process.setUncaughtExceptionCaptureCallback((e) => {
-    console.log(e)
-    SetOnReady()
-})
-
-
-//SetOnReady()
-
-
 
 
 
